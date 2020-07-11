@@ -7,8 +7,8 @@ class component extends Component {
 
   state = {
     employees: [
-      {id: 1, nom: "Kea", job: "Ux Designer", level: 2, interets: "Gastronomie", skills: "ux research, marketing" },
-      {id: 2, nom: "Thibault", job: "developer", level: 1, interets: "education", skills: "react.js" },
+      {id: 1, nom: "Line", job: "Ux Designer", level: 2, interets: "Gastronomie", skills: "ux research, marketing" },
+      {id: 2, nom: "Jojo", job: "developer", level: 1, interets: "education", skills: "react.js" },
     ], 
     lastIdEmployee: 2,
     idEmployeeAModifier: 0
@@ -50,7 +50,7 @@ class component extends Component {
     duplicateEmployeeList[findTheModicateEmployee] = newEmployee;
 
     this.setState({
-      employee: duplicateEmployeeList,
+      employees: duplicateEmployeeList,
       idEmployeeAModifier: 0
     })
   }
