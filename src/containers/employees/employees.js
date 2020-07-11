@@ -1,6 +1,7 @@
 import React, {Component} from "react";
 import Employee from '../../components/employee/employee'
-import FormAjout from "./forms/formulaireAjout";
+import FormAjout from "../forms/formulaireAjout";
+import ModificationForm from '../forms/modificationForm'
 
 class component extends Component {
 
@@ -9,7 +10,8 @@ class component extends Component {
       {id: 1, nom: "Kea", job: "Ux Designer", level: 2, interets: "Gastronomie", skills: "ux research, marketing" },
       {id: 2, nom: "Thibault", job: "developer", level: 1, interets: "education", skills: "react.js" },
     ], 
-    lastIdEmployee: 2
+    lastIdEmployee: 2,
+    idEmployeeAModifier: 0
   }
   handleAjoutEmployee = (nom, job, level, interets, skills) => {
     const newEmployeeListe = [...this.state.employees];
@@ -37,9 +39,24 @@ class component extends Component {
     
     this.setState({employees: duplicateTheEmployeeLIst})
   }
+  handleModificationEmployee = (id, nom, job, level, interets, skills) => {
+    const findTheModicateEmployee = this.state.employees.findIndex(employee => {
+      return employee.id === id;
+    })
+    const newEmployee = {id, nom, job, level, interets, skills};
+
+    const duplicateEmployeeList = [...this.state.employees]
+
+    duplicateEmployeeList[findTheModicateEmployee] = newEmployee;
+
+    this.setState({
+      employee: duplicateEmployeeList,
+      idEmployeeAModifier: 0
+    })
+  }
   render(){
     return (
-      <>
+        <>
           <table className="table table-striped">
             <thead>
               <tr>
@@ -52,20 +69,40 @@ class component extends Component {
               </tr>
             </thead>
              <tbody>
-              {this.state.employees.map(employee => {
-                return (
-                  <tr key={employee.id}>
-                    <Employee {...employee}
-                      supression={() => this.handleSupressionEmployee(employee.id)}
-                     />
-                  </tr>
-                )
-              })}
-            
+             
+              {this.state.employees.map((employee) => {
+                if(employee.id !== this.state.idEmployeeAModifier){
+                  return (
+                    <tr key={employee.id}>
+                      <Employee 
+                        {...employee}
+                        supression={() => this.handleSupressionEmployee(employee.id)}
+                        modification={() => this.setState({idEmployeeAModifier: employee.id})}
+                       />
+                    </tr>
+                  );
+                }
+                else {
+                  return (
+                    <tr key={employee.id}>
+                      <ModificationForm 
+                        id={employee.id}
+                        nom={employee.nom}
+                        job={employee.job}
+                        level={employee.level}
+                        interets={employee.interets}
+                        skills={employee.skills} 
+                        validationModification={this.handleModificationEmployee}
+                      />
+                    </tr>
+                  )
+                }
+              })
+             }
             </tbody> 
           </table>
           {this.props.ajoutEmployee && <FormAjout validation={this.handleAjoutEmployee}/>}
       </>
-  )}
+  )}             
 }
 export default component;
