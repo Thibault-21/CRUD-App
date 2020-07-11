@@ -2,6 +2,7 @@ import React, {Component} from "react";
 import Employee from '../../components/employee/employee'
 import FormAjout from "../forms/formulaireAjout";
 import ModificationForm from '../forms/modificationForm'
+import Alert from '../../components/message/message'
 
 class component extends Component {
 
@@ -11,7 +12,8 @@ class component extends Component {
       {id: 2, nom: "Jojo", job: "developer", level: 1, interets: "education", skills: "react.js" },
     ], 
     lastIdEmployee: 2,
-    idEmployeeAModifier: 0
+    idEmployeeAModifier: 0,
+    alertMessage: ""
   }
   handleAjoutEmployee = (nom, job, level, interets, skills) => {
     const newEmployeeListe = [...this.state.employees];
@@ -23,7 +25,8 @@ class component extends Component {
     this.setState(oldState => {
       return ({
         employees: newEmployeeListe, 
-        lastIdEmployee: oldState.lastIdEmployee + 1
+        lastIdEmployee: oldState.lastIdEmployee + 1,
+        alertMessage: "Ajout terminé !"
       })
     })
     this.props.fermertureAjoutEmployee();
@@ -37,7 +40,10 @@ class component extends Component {
 
     duplicateTheEmployeeLIst.splice(findTheEmployeeToDelete, 1);
     
-    this.setState({employees: duplicateTheEmployeeLIst})
+    this.setState({
+      employees: duplicateTheEmployeeLIst, 
+      alertMessage: "supression effectuée !"
+    })
   }
   handleModificationEmployee = (id, nom, job, level, interets, skills) => {
     const findTheModicateEmployee = this.state.employees.findIndex(employee => {
@@ -48,15 +54,17 @@ class component extends Component {
     const duplicateEmployeeList = [...this.state.employees]
 
     duplicateEmployeeList[findTheModicateEmployee] = newEmployee;
-
     this.setState({
       employees: duplicateEmployeeList,
-      idEmployeeAModifier: 0
+      idEmployeeAModifier: 0, 
+      alertMessage: "modification effectuée !"
     })
   }
   render(){
     return (
         <>
+        
+        {this.state.alertMessage && <Alert>{this.state.alertMessage}</Alert>}
           <table className="table table-striped">
             <thead>
               <tr>
