@@ -26,7 +26,10 @@ class component extends Component {
       return ({
         employees: newEmployeeListe, 
         lastIdEmployee: oldState.lastIdEmployee + 1,
-        alertMessage: "Ajout terminé !"
+        alertMessage: {
+          message: "Ajout terminé !",
+          type: "alert-info"
+        }
       })
     })
     this.props.fermertureAjoutEmployee();
@@ -42,7 +45,10 @@ class component extends Component {
     
     this.setState({
       employees: duplicateTheEmployeeLIst, 
-      alertMessage: "supression effectuée !"
+      alertMessage: {
+        message: "supression effectuée !",
+        type: "alert-danger"
+      }
     })
   }
   handleModificationEmployee = (id, nom, job, level, interets, skills) => {
@@ -57,14 +63,17 @@ class component extends Component {
     this.setState({
       employees: duplicateEmployeeList,
       idEmployeeAModifier: 0, 
-      alertMessage: "modification effectuée !"
+      alertMessage: {
+        message: "modification effectuée !",
+        type: "alert-warning"
+      } 
     })
   }
   render(){
     return (
         <>
         
-        {this.state.alertMessage && <Alert>{this.state.alertMessage}</Alert>}
+        {this.state.alertMessage && <Alert typeAlert={this.state.alertMessage.type}>{this.state.alertMessage.message}</Alert>}
           <table className="table table-striped">
             <thead>
               <tr>
